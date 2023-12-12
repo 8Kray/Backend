@@ -5,5 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 @Repository
-public interface PlayerRepository extends JpaRepository<Players, UUID> {
+public interface PlayerRepository extends JpaRepository<Player, UUID> {
+    Player findPlayerByplayerName(String name);
+
+    void deletePlayerByplayerName(String name);
+
 }
