@@ -19,7 +19,7 @@ public class SponsorService {
 
     public List<Sponsors> getAllSponsors() { return sponsorRepository.findAll(); }
 
-    public void deleteSponsorByName(String sponsor) { sponsorRepository.deleteSponsorsByName(sponsor); }
+    public void deleteSponsorByName(String sponsor) { sponsorRepository.deleteSponsorsBySponsor(sponsor); }
 
     public Sponsors updateSponsorDetails(UUID id, String sponsorDetails) {
         Sponsors sponsors = sponsorRepository.findById(id).orElseThrow();
@@ -33,7 +33,7 @@ public class SponsorService {
         return sponsorRepository.save(sponsors);
     }
 
-    public List<Sponsors> getSponsorByName(String sponsor) { return sponsorRepository.findSponsorsByName(sponsor);
+    public List<Sponsors> getSponsorByName(String sponsor) { return sponsorRepository.findSponsorsBySponsor(sponsor);
     }
 }
 

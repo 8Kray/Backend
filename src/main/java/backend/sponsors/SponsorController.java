@@ -15,7 +15,7 @@ public class SponsorController {
 
     private final SponsorService sponsorService;
 
-    @PostMapping("/all")
+    @PostMapping("/add")
     public Sponsors addSponsor(@RequestBody Sponsors sponsors) {
         Sponsors addedSponsor = sponsorService.addSponsor(sponsors);
         return new ResponseEntity<>(addedSponsor, HttpStatus.CREATED).getBody();

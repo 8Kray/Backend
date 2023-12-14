@@ -41,7 +41,7 @@ public class NewsService {
         return newsRepository.save(news);
     }
 
-    public void deleteNewsBydate(Date date) {
+    public void deleteNewsByDate(Date date) {
         newsRepository.deleteNewsByDate(date);
     }
 

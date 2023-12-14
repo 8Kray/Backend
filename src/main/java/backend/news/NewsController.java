@@ -55,7 +55,7 @@ public class NewsController {
 
     @DeleteMapping("/delete/date/{date}")
     public ResponseEntity<Void> deleteNewsByDate(@PathVariable Date date) {
-        newsService.deleteNewsBydate(date);
+        newsService.deleteNewsByDate(date);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

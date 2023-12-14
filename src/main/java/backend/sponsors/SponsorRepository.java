@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 @Repository
 public interface SponsorRepository extends JpaRepository<Sponsors, UUID> {
-    void deleteSponsorsByName(String sponsor);
+    void deleteSponsorsBySponsor(String sponsor);
 
-    List<Sponsors> findSponsorsByName(String sponsor);
+    List<Sponsors> findSponsorsBySponsor(String sponsor);
 }
