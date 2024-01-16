@@ -18,16 +18,16 @@ import java.util.UUID;
 @Entity
 @Table(name="users")
 public class Users {
-    @NotBlank
+
     @Id
     @GeneratedValue
     private UUID id;
-    @NotBlank
+
     private String username;
     @NotBlank
     private String email;
     @NotBlank
     private String password;
-    @NotBlank
-    private  String Level;
+
+    private String Level;
 }

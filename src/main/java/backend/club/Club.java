@@ -1,4 +1,4 @@
-package backend.news;
+package backend.club;
 
 import backend.user.Users;
 import jakarta.persistence.*;
@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -14,16 +16,18 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "news")
-public class News {
-    @NotBlank
-    @Id
+@Table(name = "club")
+public class Club
+{
+
+
     @GeneratedValue
-    private UUID newsId;
+    @Id
+    private UUID clubId;
     @NotBlank
-    private String newsTitle;
+    private String title;
     @NotBlank
-    private String news;
+    private String details;
     @NotBlank
     private Date date;
     @ManyToOne

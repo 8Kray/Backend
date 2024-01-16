@@ -19,7 +19,7 @@ public class Match {
     @NotBlank
     @GeneratedValue
     @Id
-    private UUID id;
+    private UUID matchId;
     @NotBlank
     private String teamA;
     @NotBlank
@@ -31,5 +31,6 @@ public class Match {
     @NotBlank
     private Date date;
     @ManyToOne
+    @JoinColumn(name = "id")
     private Users users;
 }
