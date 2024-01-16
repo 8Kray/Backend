@@ -28,6 +28,7 @@ public class  ClubService {
             return clubRepository.save(club);
         } else {
             throw new Exception("User not found");
+
         }
     }
     public Club getClubById(UUID id) {

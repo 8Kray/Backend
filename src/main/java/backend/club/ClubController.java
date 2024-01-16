@@ -30,9 +30,11 @@ public class ClubController {
             Club newClub = clubService.addClub(club);
             return new ResponseEntity<>(newClub, HttpStatus.CREATED);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<ClubDto> getClubById(@PathVariable UUID id) {
         Club club = clubService.getClubById(id);

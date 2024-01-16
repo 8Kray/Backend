@@ -1,31 +1,24 @@
-package backend.match;
+package backend.match.util;
 
-import backend.user.Users;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "match")
-public class Match {
-
-    @GeneratedValue
-    @Id
-    private UUID matchId;
+public class MatchDto {
+    @NotBlank
     private String teamA;
+    @NotBlank
     private String teamB;
+    @NotBlank
     private Integer teamA_Scor;
+    @NotBlank
     private Integer teamB_Scor;
+    @NotBlank
     private Date date;
-    @ManyToOne
-    @JoinColumn(name = "id")
-    private Users users;
 }

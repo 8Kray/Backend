@@ -16,15 +16,11 @@ import java.util.UUID;
 @Entity
 @Table(name = "news")
 public class News {
-    @NotBlank
     @Id
     @GeneratedValue
     private UUID newsId;
-    @NotBlank
     private String newsTitle;
-    @NotBlank
     private String news;
-    @NotBlank
     private Date date;
     @ManyToOne
     @JoinColumn(name = "id")

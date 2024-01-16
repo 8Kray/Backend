@@ -24,11 +24,11 @@ public class Club
     @GeneratedValue
     @Id
     private UUID clubId;
-    @NotBlank
+
     private String title;
-    @NotBlank
+
     private String details;
-    @NotBlank
+
     private Date date;
     @ManyToOne
     @JoinColumn(name = "id")
