@@ -15,10 +15,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "players")
 public class Players {
-    @NotBlank
+
     @GeneratedValue
     @Id
-    private UUID id;
+    private UUID playerId;
     @NotBlank
     private String playerName;
     @NotBlank
@@ -26,6 +26,7 @@ public class Players {
     @NotBlank
     private String statistic;
     @ManyToOne
+    @JoinColumn(name ="id")
     private Users users;
 
 }

@@ -1,10 +1,13 @@
-package backend.club_d;
+package backend.club;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 @Repository
-public interface ClubRepository extends JpaRepository<ClubD, UUID> {
+public interface ClubRepository extends JpaRepository<Club, UUID> {
+
+    Club findByTitle(String clubName);
+
 
 }
