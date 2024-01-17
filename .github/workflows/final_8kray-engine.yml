@@ -49,5 +49,5 @@ jobs:
         with:
           app-name: '8kray-engine'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FFEDBDC083C1447F80BE9FB4B204C9CF }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3B8A116090F143C78046D26693891A54 }}
           package: '*.jar'
