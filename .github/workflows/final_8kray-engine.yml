@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy JAR app to Azure Web App - 8kray-engine
 
 on:
@@ -36,21 +33,12 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: java-app
-      
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_FB7C1C2931EC470AACC64F8CD3BF81D0 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C44FCFCC7CD04B309715EEF28AD0545F }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_00B638D90EB74FD49CC4366D74DE599E }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -59,4 +47,4 @@ jobs:
           app-name: '8kray-engine'
           slot-name: 'Production'
           package: '*.jar'
-          
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_176D21BB30E04E169A7A416AA80A7E07 }}
