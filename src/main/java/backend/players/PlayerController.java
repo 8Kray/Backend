@@ -1,12 +1,14 @@
 package backend.players;
 
+import backend.players.util.PlayersDto;
+import backend.players.util.PlayersMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -14,14 +16,60 @@ import java.util.List;
 public class PlayerController {
 
     private final PlayerRepository playerRepository;
+    private final PlayerService playerService;
 
-    @GetMapping
-    public List<Players> getAllPlayers() {
-        return playerRepository.findAll();
+    @GetMapping("/all")
+    public ResponseEntity<List<PlayersDto>> getAllPlayers() {
+        List<Players> players = playerService.getAllPlayers();
+        List<PlayersDto> playersDtoList = PlayersMapper.mapToDtoList(players);
+        return new ResponseEntity<>(playersDtoList, HttpStatus.OK);
+    }
+    @PostMapping("/add")
+    public ResponseEntity<Players> addPlayer(@RequestBody Players players) {
+        try {
+            Players newPlayer = playerService.addPlayer(players);
+            return new ResponseEntity<>(newPlayer, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<PlayersDto> getPlayerById(@PathVariable UUID id) {
+        Players player = playerService.getPlayerById(id);
+        if (player != null) {
+            PlayersDto playersDto = PlayersMapper.toDto(player);
+            return new ResponseEntity<>(playersDto, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/search")
+    public ResponseEntity<PlayersDto> getPlayerByPlayerName(@RequestParam String playerName) {
+        Players player = playerService.getPlayerByPlayerName(playerName);
+        if (player != null) {
+            PlayersDto playersDto = PlayersMapper.toDto(player);
+            return new ResponseEntity<>(playersDto, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @PutMapping("/update{player}")
+    public ResponseEntity<String> updatePlayerByPlayer(@RequestParam String player, @RequestBody PlayersDto playersDto) {
+        try {
+            playerService.updatePlayerByPlayerName(player, playersDto);
+            return ResponseEntity.status(HttpStatus.OK).body("Players updated successfully");
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deletePlayerById(@PathVariable UUID id) {
+        try {
+            playerService.deletePlayerById(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Players deleted successfully");
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @RequestMapping
-    public Players createPlayers(@RequestBody Players players) {
-        return playerRepository.save(players);
-    }
 }

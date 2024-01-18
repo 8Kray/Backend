@@ -15,17 +15,19 @@ import java.util.UUID;
 @Entity
 @Table(name = "sponsors")
 public class Sponsors {
-    @NotBlank
+
     @GeneratedValue
     @Id
     private UUID sponsorsID;
-    @NotBlank
+
     private String sponsor;
-    @NotBlank
+
     private String sponsorDetails;
-    @NotBlank
+
     private String sponsorLink;
     @ManyToOne
+    @JoinColumn(name = "id")
     private Users users;
+
 
 }

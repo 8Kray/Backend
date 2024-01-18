@@ -16,20 +16,16 @@ import java.util.UUID;
 @Entity
 @Table(name = "match")
 public class Match {
-    @NotBlank
+
     @GeneratedValue
     @Id
-    private UUID id;
-    @NotBlank
+    private UUID matchId;
     private String teamA;
-    @NotBlank
     private String teamB;
-    @NotBlank
     private Integer teamA_Scor;
-    @NotBlank
     private Integer teamB_Scor;
-    @NotBlank
     private Date date;
     @ManyToOne
+    @JoinColumn(name = "id")
     private Users users;
 }

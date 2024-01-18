@@ -18,4 +18,6 @@ public interface NewsRepository extends JpaRepository<News, UUID> {
     void deleteNewsByDate(Date date);
 
     void deleteNewsByNewsTitle(String newsTitle);
+
+    News findByNewsTitle(String newsTitle);
 }

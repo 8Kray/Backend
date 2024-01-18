@@ -1,10 +1,11 @@
 package backend.news;
 
-import lombok.Data;
+import backend.news.util.NewsDto;
+import backend.user.UserRepository;
+import backend.user.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,41 +14,36 @@ import java.util.UUID;
 public class NewsService {
 
     private final NewsRepository newsRepository;
-
-    public News addNews(News news) {
-
-        return newsRepository.save(news);
-    }
+    private final UserRepository userRepository;
 
     public List<News> getAllNews() {
         return newsRepository.findAll();
     }
+    public News addNews(News news) throws Exception {
+        Users existingUser = userRepository.findByUsername(news.getUsers().getUsername());
 
-    public News updateNews(News news) {
-        return newsRepository.save(news);
+        if (existingUser != null) {
+            news.getUsers().setId(existingUser.getId());
+            news.getUsers().setEmail(existingUser.getEmail());
+            news.getUsers().setLevel(existingUser.getLevel());
+            return newsRepository.save(news);
+        } else {
+            throw new Exception("User not found");
+        }
     }
-
-    public List<News> getNewsByNewsTitle(String newsTitle) {
-        return newsRepository.findNewsByNewsTitle(newsTitle);
+    public News getNewsById(UUID id) {
+        return newsRepository.findById(id).orElse(null);
     }
-
-    public List<News> getNewsByDate(Data date) {
-        return newsRepository.findNewsByDate((Date) date);
+    public News getNewsByNewsTitle(String newsTitle) {
+        return newsRepository.findByNewsTitle(newsTitle);
     }
-
-    public News updateNewsTitle(UUID id, String newsTitle) {
-        News news = newsRepository.findById(id).orElseThrow();
-        news.setNewsTitle(newsTitle);
-        return newsRepository.save(news);
+    public void deleteNewsById(UUID id) {
+        newsRepository.deleteById(id);
     }
-
-    public void deleteNewsBydate(Date date) {
-        newsRepository.deleteNewsByDate(date);
+    public void updateNewsByNewsTitle(String newsTitle, NewsDto newsDto) {
+        News existingNews = newsRepository.findByNewsTitle(newsTitle);
+        existingNews.setNewsTitle(newsDto.getNewsTitle());
+        existingNews.setNews(newsDto.getNews());
+        newsRepository.save(existingNews);
     }
-
-    public void deleteNewsByNewsTitle(String newsTitle) {
-        newsRepository.deleteNewsByNewsTitle(newsTitle);
-    }
-
-
 }
