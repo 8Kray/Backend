@@ -1,12 +1,12 @@
 package backend.club;
 
+import backend.club.util.ClubCreateDto;
 import backend.club.util.ClubDto;
 import backend.user.UserRepository;
 import backend.user.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,21 +14,29 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class  ClubService {
     private final ClubRepository clubRepository;
-    private final UserRepository user;
-
+    private final UserRepository userRepository;
+    public boolean isUserAdmin(String username) {
+        Users user = userRepository.findByUsername(username);
+        return user != null && "admin".equalsIgnoreCase(user.getLevel());
+    }
     public List<Club> getAllClubs() {
         return clubRepository.findAll();
     }
-    public Club addClub(Club club) throws Exception {
-        Users existingUser = user.findByUsername(club.getUsers().getUsername());
+    public Club addClub(ClubCreateDto clubCreateDto) throws Exception {
+        Users existingUser = userRepository.findByUsername(clubCreateDto.getUsers().getUsername());
         if (existingUser != null) {
-            club.getUsers().setId(existingUser.getId());
-            club.getUsers().setEmail(existingUser.getEmail());
-            club.getUsers().setLevel(existingUser.getLevel());
-            return clubRepository.save(club);
+            if(isUserAdmin(existingUser.getUsername())) {
+                Club newClub = new Club();
+                newClub.setTitle(clubCreateDto.getTitle());
+                newClub.setDetails(clubCreateDto.getClubDetails());
+                newClub.setDate(clubCreateDto.getDate());
+                newClub.setUsers(existingUser);
+                return clubRepository.save(newClub);
+            } else {
+                throw new Exception("User does not have admin level");
+            }
         } else {
             throw new Exception("User not found");
-
         }
     }
     public Club getClubById(UUID id) {

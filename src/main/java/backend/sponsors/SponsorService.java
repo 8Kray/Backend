@@ -1,5 +1,6 @@
 package backend.sponsors;
 
+import backend.sponsors.util.SponsorsCreateDto;
 import backend.sponsors.util.SponsorsDto;
 import backend.user.UserRepository;
 import backend.user.Users;
@@ -14,22 +15,35 @@ public class SponsorService {
     private final SponsorRepository sponsorRepository;
     private final UserRepository userRepository;
 
+    public boolean isUserAdmin(String username) {
+        Users user = userRepository.findByUsername(username);
+        return user != null && "admin".equalsIgnoreCase(user.getLevel());
+    }
+
+
     public List<Sponsors> getAllSponsors() {
         return sponsorRepository.findAll();
     }
 
-    public Sponsors addSponsor(Sponsors sponsors) throws Exception {
+    public Sponsors addSponsor(SponsorsCreateDto sponsorsCreateDto) throws Exception {
         // Check if the user with the provided username exists
-        Users existingUser = userRepository.findByUsername(sponsors.getUsers().getUsername());
+        Users existingUser = userRepository.findByUsername(sponsorsCreateDto.getUsers().getUsername());
 
         if (existingUser != null) {
-            // Set the user information from the existing user
-            sponsors.getUsers().setId(existingUser.getId());
-            sponsors.getUsers().setEmail(existingUser.getEmail());
-            sponsors.getUsers().setLevel(existingUser.getLevel());
+            // Verify if the user has the "admin" level
+            if (isUserAdmin(existingUser.getUsername())) {
+                // Create a new Sponsors object and populate its properties
+                Sponsors newSponsor = new Sponsors();
+                newSponsor.setSponsor(sponsorsCreateDto.getSponsor());
+                newSponsor.setSponsorDetails(sponsorsCreateDto.getDetails());
+                newSponsor.setSponsorLink(sponsorsCreateDto.getLink());
+                newSponsor.setUsers(existingUser);
 
-            // Save the sponsor
-            return sponsorRepository.save(sponsors);
+                // Save the new sponsor
+                return sponsorRepository.save(newSponsor);
+            } else {
+                throw new Exception("User does not have admin level");
+            }
         } else {
             throw new Exception("User not found");
         }

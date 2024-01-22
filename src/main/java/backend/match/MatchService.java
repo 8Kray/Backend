@@ -1,5 +1,6 @@
 package backend.match;
 
+import backend.match.util.MatchCreateDto;
 import backend.match.util.MatchDto;
 import backend.players.Players;
 import backend.user.UserRepository;
@@ -24,14 +25,22 @@ public class MatchService {
     public List<Match> getAllMatches() {
         return matchRepository.findAll();
     }
-    public Match addMatch(Match match) throws Exception {
-        Users existingUser = userRepository.findByUsername(match.getUsers().getUsername());
+    public Match addMatch(MatchCreateDto matchCreateDto) throws Exception {
+        Users existingUser = userRepository.findByUsername(matchCreateDto.getUsers().getUsername());
 
         if (existingUser != null) {
-            match.getUsers().setId(existingUser.getId());
-            match.getUsers().setEmail(existingUser.getEmail());
-            match.getUsers().setLevel(existingUser.getLevel());
-            return matchRepository.save(match);
+            if (existingUser.getLevel().equalsIgnoreCase("admin")) {
+                Match newMatch = new Match();
+                newMatch.setTeamA(matchCreateDto.getTeamA());
+                newMatch.setTeamB(matchCreateDto.getTeamB());
+                newMatch.setTeamA_Scor(matchCreateDto.getTeamA_Scor());
+                newMatch.setTeamB_Scor(matchCreateDto.getTeamB_Scor());
+                newMatch.setDate((Date) matchCreateDto.getDate());
+                newMatch.setUsers(existingUser);
+                return matchRepository.save(newMatch);
+            } else {
+                throw new Exception("User does not have admin level");
+            }
         } else {
             throw new Exception("User not found");
         }

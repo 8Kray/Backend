@@ -1,5 +1,6 @@
 package backend.sponsors;
 
+import backend.sponsors.util.SponsorsCreateDto;
 import backend.sponsors.util.SponsorsDto;
 import backend.sponsors.util.SponsorsMapper;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +16,18 @@ import java.util.UUID;
 @RequestMapping("/sponsors")
 public class SponsorController {
 
-    private final SponsorRepository sponsorRepository;
+
     private final SponsorService sponsorService;
     @GetMapping("/all")
     public ResponseEntity<List<SponsorsDto>> getAllSponsors() {
         List<Sponsors> sponsors = sponsorService.getAllSponsors();
         List<SponsorsDto> sponsorsDtoList = SponsorsMapper.mapToDtoList(sponsors);
         return new ResponseEntity<>(sponsorsDtoList, HttpStatus.OK);
+    }
+    @GetMapping("/getall")
+    public ResponseEntity<List<Sponsors>> getAllSponsorss() {
+        List<Sponsors> sponsors = sponsorService.getAllSponsors();
+        return new ResponseEntity<>(sponsors, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -47,7 +53,7 @@ public class SponsorController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Sponsors> addSponsor(@RequestBody Sponsors sponsors) {
+    public ResponseEntity<Sponsors> addSponsor(@RequestBody SponsorsCreateDto sponsors) {
         try {
             Sponsors newSponsor = sponsorService.addSponsor(sponsors);
             return new ResponseEntity<>(newSponsor, HttpStatus.CREATED);

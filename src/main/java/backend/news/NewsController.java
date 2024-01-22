@@ -1,5 +1,6 @@
 package backend.news;
 
+import backend.news.util.NewsCreateDto;
 import backend.news.util.NewsDto;
 import backend.news.util.NewsMapper;
 import lombok.Data;
@@ -25,8 +26,13 @@ public class NewsController {
         List<NewsDto> newsDtoList = NewsMapper.mapToDtoList(news);
         return new ResponseEntity<>(newsDtoList, HttpStatus.OK);
     }
+    @GetMapping("/getall")
+    public ResponseEntity<List<News>> getAllNewss() {
+        List<News> news = newsService.getAllNews();
+        return new ResponseEntity<>(news, HttpStatus.OK);
+    }
     @PostMapping("/add")
-    public ResponseEntity<News> addNews(@RequestBody News news) {
+    public ResponseEntity<News> addNews(@RequestBody NewsCreateDto news) {
         try {
             News newNews = newsService.addNews(news);
             return new ResponseEntity<>(newNews, HttpStatus.CREATED);

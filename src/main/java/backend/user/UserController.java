@@ -1,10 +1,6 @@
 package backend.user;
 
-import backend.user.util.DuplicateEmailException;
-import backend.user.util.UserDto;
-import backend.user.util.UserLogInDto;
-
-import backend.user.util.UserMapper;
+import backend.user.util.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,26 +14,33 @@ import java.util.UUID;
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserRepository userRepository;
     private final UserService userService;
 
     @PostMapping("/add")
-    public ResponseEntity<Users> addUser(@RequestBody Users users) throws DuplicateEmailException {
+    public ResponseEntity<Users> addUser(@RequestBody UserCreateDto users) throws DuplicateEmailException {
         Users newUser = userService.addUser(users);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
+
     @PostMapping("/login")
     public ResponseEntity<Users> login(@RequestBody UserLogInDto usersLogin) throws Exception {
-       String username = usersLogin.getUsername();
-       String password = usersLogin.getPassword();
-       return new ResponseEntity<>(userService.login(username, password), HttpStatus.OK);
+        String username = usersLogin.getUsername();
+        String password = usersLogin.getPassword();
+        return new ResponseEntity<>(userService.login(username, password), HttpStatus.OK);
 
     }
+
     @GetMapping("/get-all")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         List<Users> users = userService.getAllUsers();
         List<UserDto> userDtoList = UserMapper.mapToUserDTOs(users);
         return new ResponseEntity<>(userDtoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/getall")
+    public ResponseEntity<List<Users>> getAllUserss() {
+        List<Users> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -72,12 +75,6 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteUserById(@PathVariable UUID id) {
-        userService.deleteUserById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
     @GetMapping("/get-by-email/{email}")
     public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email) {
         Users user = userService.getUserByEmail(email);
@@ -87,5 +84,11 @@ public class UserController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteUserById(@PathVariable UUID id) {
+        userService.deleteUserById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -15,6 +15,6 @@ public class NewsMapper {
     public static List<NewsDto> mapToDtoList(List<News> newsList) {
         return newsList.stream()
                 .map(NewsMapper::toDto)
-                .collect(java.util.stream.Collectors.toList());
+                .toList();
     }
 }

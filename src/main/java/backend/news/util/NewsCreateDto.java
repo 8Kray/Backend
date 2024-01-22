@@ -1,6 +1,6 @@
 package backend.news.util;
 
-import jakarta.validation.constraints.NotBlank;
+import backend.user.util.UserAdminMedia;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -11,12 +11,11 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class NewsDto {
-    @NotBlank
+public class NewsCreateDto {
+
     private String newsTitle;
-    @NotBlank
     private String news;
-    @NotBlank
     private Date date;
+    private UserAdminMedia users;
 
 }

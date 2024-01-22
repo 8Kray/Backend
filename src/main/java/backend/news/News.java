@@ -6,7 +6,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import nonapi.io.github.classgraph.types.ParseException;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -25,4 +27,5 @@ public class News {
     @ManyToOne
     @JoinColumn(name = "id")
     private Users users;
+
 }

@@ -1,5 +1,6 @@
 package backend.match;
 
+import backend.match.util.MatchCreateDto;
 import backend.match.util.MatchDto;
 import backend.match.util.MatchMapper;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +26,13 @@ public class MatchController {
         List<MatchDto> matchDtoList = MatchMapper.mapToDtoList(match);
         return new ResponseEntity<>(matchDtoList, HttpStatus.OK);
     }
+    @GetMapping("/getall")
+    public ResponseEntity<List<Match>> getAllMatches() {
+        List<Match> match = matchService.getAllMatches();
+        return new ResponseEntity<>(match, HttpStatus.OK);
+    }
     @PostMapping("/add")
-    public ResponseEntity<Match> addMatch(@RequestBody Match match) {
+    public ResponseEntity<Match> addMatch(@RequestBody MatchCreateDto match) {
         try {
             Match newMatch = matchService.addMatch(match);
             return new ResponseEntity<>(newMatch, HttpStatus.CREATED);

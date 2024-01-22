@@ -1,5 +1,6 @@
 package backend.club;
 
+import backend.club.util.ClubCreateDto;
 import backend.club.util.ClubDto;
 import backend.club.util.ClubMapper;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +25,13 @@ public class ClubController {
         List<ClubDto> clubDtoList = ClubMapper.mapToDtoList(clubs);
         return new ResponseEntity<>(clubDtoList, HttpStatus.OK);
     }
+    @GetMapping("/getall")
+public ResponseEntity<List<Club>> getAllClubs2() {
+        List<Club> clubs = clubService.getAllClubs();
+        return new ResponseEntity<>(clubs, HttpStatus.OK);
+    }
     @PostMapping("/add")
-    public ResponseEntity<Club> addClub(@RequestBody Club club) {
+    public ResponseEntity<Club> addClub(@RequestBody ClubCreateDto club) {
         try {
             Club newClub = clubService.addClub(club);
             return new ResponseEntity<>(newClub, HttpStatus.CREATED);

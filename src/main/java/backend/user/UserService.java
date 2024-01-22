@@ -2,8 +2,10 @@ package backend.user;
 
 import backend.user.util.DuplicateEmailException;
 import backend.user.util.InvalidEmailFormatException;
+import backend.user.util.UserCreateDto;
 import backend.user.util.UserDto;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,8 +27,9 @@ public class UserService {
         return null;
     }
 
-    public Users addUser(Users users) throws DuplicateEmailException {
-        String email = users.getEmail();
+
+    public Users addUser(UserCreateDto userCreateDto) throws DuplicateEmailException, InvalidEmailFormatException {
+        String email = userCreateDto.getEmail();
 
         // Check if the email already exists in the database
         Users existingUser = userRepository.findByEmail(email);
@@ -39,12 +42,10 @@ public class UserService {
             throw new InvalidEmailFormatException("Invalid email format");
         }
 
-        // Set the username based on the email address
+        // Set the default username based on the email address
         int atIndex = email.indexOf('@');
         if (atIndex >= 0) {
             String baseUsername = email.substring(0, atIndex);
-
-            // Check if the username already exists, and if so, increment it
             String username = baseUsername;
             int counter = 1;
             while (userRepository.findByUsername(username) != null) {
@@ -52,15 +53,20 @@ public class UserService {
                 counter++;
             }
 
-            users.setUsername(username);
+            userCreateDto.setUsername(username);
         } else {
             throw new InvalidEmailFormatException("Invalid email format");
         }
-        // Set the default level to "user"
-        users.setLevel("user");
 
-        return userRepository.save(users);
+        // Convert UserCreateDto to Users entity and save it
+        Users newUser = new Users();
+        newUser.setUsername(userCreateDto.getUsername());
+        newUser.setPassword(userCreateDto.getPassword());
+        newUser.setEmail(userCreateDto.getEmail());
+
+        return userRepository.save(newUser);
     }
+
 
     public boolean isValidEmailFormat(String email) {
         return email.matches("^.+@(gmail|yahoo|outlook|student\\.usv)\\.(com|ro)$");
@@ -73,10 +79,6 @@ public class UserService {
 
     public Users getUserById(UUID id) {
         return userRepository.findById(id).orElse(null);
-    }
-
-    public void deleteUserByUsername(String username) {
-        userRepository.deleteByUsername(username);
     }
 
     public void deleteUserById(UUID id) {

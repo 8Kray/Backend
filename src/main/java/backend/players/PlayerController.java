@@ -1,5 +1,6 @@
 package backend.players;
 
+import backend.players.util.PlayersCreateDto;
 import backend.players.util.PlayersDto;
 import backend.players.util.PlayersMapper;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @RequestMapping("/players")
 public class PlayerController {
 
-    private final PlayerRepository playerRepository;
+
     private final PlayerService playerService;
 
     @GetMapping("/all")
@@ -24,8 +25,13 @@ public class PlayerController {
         List<PlayersDto> playersDtoList = PlayersMapper.mapToDtoList(players);
         return new ResponseEntity<>(playersDtoList, HttpStatus.OK);
     }
+    @GetMapping("/getall")
+    public ResponseEntity<List<Players>> getAllPlayerss() {
+        List<Players> players = playerService.getAllPlayers();
+        return new ResponseEntity<>(players, HttpStatus.OK);
+    }
     @PostMapping("/add")
-    public ResponseEntity<Players> addPlayer(@RequestBody Players players) {
+    public ResponseEntity<Players> addPlayer(@RequestBody PlayersCreateDto players) {
         try {
             Players newPlayer = playerService.addPlayer(players);
             return new ResponseEntity<>(newPlayer, HttpStatus.CREATED);
