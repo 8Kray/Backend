@@ -63,6 +63,7 @@ public class UserService {
         newUser.setUsername(userCreateDto.getUsername());
         newUser.setPassword(userCreateDto.getPassword());
         newUser.setEmail(userCreateDto.getEmail());
+        newUser.setLevel(userCreateDto.getLevel());
 
         return userRepository.save(newUser);
     }
