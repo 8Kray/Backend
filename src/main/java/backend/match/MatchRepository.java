@@ -10,4 +10,6 @@ public interface MatchRepository extends JpaRepository<Match, UUID> {
 
 
     Match findByDate(Date date);
+
+    Match findByTeamA(String teamA);
 }

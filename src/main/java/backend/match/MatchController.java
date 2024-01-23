@@ -61,10 +61,10 @@ public class MatchController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @PutMapping("/update{date}")
-    public ResponseEntity<String> updateMatchByDate(@RequestParam Date date, @RequestBody MatchDto matchDto) {
+    @PutMapping("/update{teamA}")
+    public ResponseEntity<String> updateMatchByDate(@RequestParam String teamA, @RequestBody MatchDto matchDto) {
         try {
-            matchService.updateMatchByDate(date, matchDto);
+            matchService.updateMatchByDate(teamA, matchDto);
             return ResponseEntity.status(HttpStatus.OK).body("Match updated successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error updating match");

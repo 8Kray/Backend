@@ -61,7 +61,7 @@ public class SponsorController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-    @PutMapping("/update{sponsor}")
+    @PutMapping("/update/{sponsor}")
     public ResponseEntity<String> updateSponsorsBySponsor(@RequestParam String sponsor, @RequestBody SponsorsDto sponsorsDto) {
         try {
             sponsorService.updateSponsorsBySponsor(sponsor, sponsorsDto);
@@ -70,6 +70,7 @@ public class SponsorController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSponsor(@PathVariable UUID id, @RequestParam UUID userId) {

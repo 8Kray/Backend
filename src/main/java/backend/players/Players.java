@@ -1,5 +1,6 @@
 package backend.players;
 
+import backend.image.Image;
 import backend.user.Users;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -28,5 +29,9 @@ public class Players {
     @ManyToOne
     @JoinColumn(name ="id")
     private Users users;
+    @ManyToOne
+    @JoinColumn(name = "image_id")
+    private Image sponsorsImage;
+
 
 }

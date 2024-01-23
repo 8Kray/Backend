@@ -1,14 +1,20 @@
 package backend.news;
 
+import backend.image.Image;
+import backend.image.ImageRepository;
 import backend.news.util.NewsCreateDto;
 import backend.news.util.NewsDto;
 import backend.user.UserRepository;
 import backend.user.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.Date;
 
@@ -18,12 +24,12 @@ public class NewsService {
 
     private final NewsRepository newsRepository;
     private final UserRepository userRepository;
+    private final ImageRepository imageRepository;
 
     public boolean isUserAdmin(String username) {
         Users user = userRepository.findByUsername(username);
-        return user != null && "admin".equalsIgnoreCase(user.getLevel());
+        return user != null && "admin".equalsIgnoreCase(user.getLevel()) || "media".equalsIgnoreCase(user.getLevel());
     }
-
 
 
     public List<News> getAllNews() {
@@ -70,4 +76,5 @@ public class NewsService {
         existingNews.setNews(newsDto.getNews());
         newsRepository.save(existingNews);
     }
+
 }

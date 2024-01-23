@@ -54,8 +54,8 @@ public class MatchService {
     public void deleteMatchById(UUID id) {
         matchRepository.deleteById(id);
     }
-    public void updateMatchByDate(Date date, MatchDto matchDto) {
-        Match existingMatch = matchRepository.findByDate(date);
+    public void updateMatchByDate(String teamA, MatchDto matchDto) {
+        Match existingMatch = matchRepository.findByTeamA(teamA);
         existingMatch.setDate(matchDto.getDate());
         existingMatch.setTeamA(matchDto.getTeamA());
         existingMatch.setTeamB(matchDto.getTeamB());

@@ -1,5 +1,6 @@
 package backend.news;
 
+import backend.image.Image;
 import backend.user.Users;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

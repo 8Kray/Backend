@@ -1,5 +1,7 @@
 package backend.sponsors;
 
+import backend.image.Image;
+import backend.image.ImageUtil;
 import backend.user.Users;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -28,6 +30,5 @@ public class Sponsors {
     @ManyToOne
     @JoinColumn(name = "id")
     private Users users;
-
 
 }

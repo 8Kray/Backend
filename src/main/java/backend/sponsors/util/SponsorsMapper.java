@@ -31,4 +31,5 @@ public class SponsorsMapper {
                 .collect(Collectors.toList());
     }
 
+
 }

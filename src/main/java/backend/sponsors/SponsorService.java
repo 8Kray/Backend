@@ -1,5 +1,6 @@
 package backend.sponsors;
 
+import backend.image.ImageService;
 import backend.sponsors.util.SponsorsCreateDto;
 import backend.sponsors.util.SponsorsDto;
 import backend.user.UserRepository;
@@ -9,11 +10,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class SponsorService {
     private final SponsorRepository sponsorRepository;
     private final UserRepository userRepository;
+    private final ImageService imageService;
+
 
     public boolean isUserAdmin(String username) {
         Users user = userRepository.findByUsername(username);
@@ -53,9 +57,6 @@ public class SponsorService {
         return sponsorRepository.findById(id).orElse(null);
     }
 
-    public Sponsors getSponsorsBySponsor(String sponsor) {
-        return sponsorRepository.findBySponsor(sponsor);
-    }
 
     public void deleteSponsorsById(UUID id, UUID userId) throws Exception {
         if (userRepository.existsById(userId)) {

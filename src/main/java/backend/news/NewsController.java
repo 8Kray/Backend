@@ -78,5 +78,6 @@ public class NewsController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("News not found");
         }
     }
+
     
 }
