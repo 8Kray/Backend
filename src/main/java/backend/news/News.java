@@ -23,6 +23,7 @@ public class News {
     @GeneratedValue
     private UUID newsId;
     private String newsTitle;
+    @Lob
     private String news;
     private Date date;
     @ManyToOne

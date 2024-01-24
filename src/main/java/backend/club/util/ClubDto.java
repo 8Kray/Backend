@@ -1,5 +1,6 @@
 package backend.club.util;
 
+import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,7 @@ import java.util.Date;
 public class ClubDto {
         @NotBlank
         private String title;
+        @Lob
         @NotBlank
         private String details;
         @NotBlank
