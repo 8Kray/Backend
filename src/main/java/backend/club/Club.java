@@ -1,6 +1,7 @@
 package backend.club;
 
 import backend.user.Users;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,8 +26,8 @@ public class Club {
     private UUID clubId;
     private String title;
     @Lob
-
     private String details;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "EET")
     private Date date;
     @ManyToOne
     @JoinColumn(name = "id")
