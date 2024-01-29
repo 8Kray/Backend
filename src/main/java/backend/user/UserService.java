@@ -5,7 +5,6 @@ import backend.user.util.InvalidEmailFormatException;
 import backend.user.util.UserCreateDto;
 import backend.user.util.UserDto;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -95,6 +94,9 @@ public class UserService {
             if (userDTO.getUsername() != null) {
                 existingUser.setUsername(userDTO.getUsername());
             }
+            if (userDTO.getPassword() != null) {
+                existingUser.setPassword(userDTO.getPassword());
+            }
             if (userDTO.getEmail() != null) {
                 existingUser.setEmail(userDTO.getEmail());
             }
@@ -108,6 +110,8 @@ public class UserService {
 
         return existingUser;
     }
+
+  
 
     public Users getUserByEmail(String email) {
         return userRepository.findByEmail(email);

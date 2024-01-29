@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.AuthenticationException;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,11 +24,17 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Users> login(@RequestBody UserLogInDto usersLogin) throws Exception {
+    public ResponseEntity<Users> login(@RequestBody UserLogInDto usersLogin) throws AuthenticationException {
         String username = usersLogin.getUsername();
         String password = usersLogin.getPassword();
-        return new ResponseEntity<>(userService.login(username, password), HttpStatus.OK);
 
+        Users loggedInUser = userService.login(username, password);
+
+        if (loggedInUser == null) {
+            throw new AuthenticationException("Login failed. Invalid username or password.");
+        }
+
+        return new ResponseEntity<>(loggedInUser, HttpStatus.OK);
     }
 
     @GetMapping("/get-all")

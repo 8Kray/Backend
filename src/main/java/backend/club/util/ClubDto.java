@@ -1,5 +1,6 @@
 package backend.club.util;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ public class ClubDto {
         @Lob
         @NotBlank
         private String details;
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "EET")
         @NotBlank
         private Date date;
 

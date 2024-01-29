@@ -18,6 +18,7 @@ public class NewsCreateDto {
     @Lob
     private String news;
     private Date date;
+
     private UserAdminMedia users;
 
 }
